@@ -2,33 +2,30 @@ pipeline {
     agent any
     
     environment {
-        JAVA_HOME = tool name: 'JDK 23', type: 'Tool'  // Make sure JDK 23 is installed on Jenkins
+        JAVA_HOME = tool name: 'JDK 23', type: 'Tool'  // Ensure JDK 23 is configured in Jenkins
     }
 
     stages {
         stage('Checkout') {
             steps {
-                // Checkout code from GitHub repository
-                https://github.com/popcorn1297/test_java.git // Update with your actual repository URL
+                git 'https://github.com/popcorn1297/test_java.git'
             }
         }
 
         stage('Compile') {
             steps {
-                // Compile the Java application using javac
                 script {
                     echo 'Compiling the Java application...'
-                    sh "${JAVA_HOME}/bin/javac Calculator.java" // Compile the Calculator.java file
+                    sh "${JAVA_HOME}/bin/javac Calculator.java"  // Adjust path if necessary
                 }
             }
         }
 
         stage('Run') {
             steps {
-                // Run the compiled Java application
                 script {
                     echo 'Running the Java application...'
-                    sh "${JAVA_HOME}/bin/java Calculator" // Run the Calculator class (no .java or .class extension)
+                    sh "${JAVA_HOME}/bin/java Calculator"  // Run the Calculator class
                 }
             }
         }
@@ -36,18 +33,16 @@ pipeline {
 
     post {
         always {
-            // Clean up or other final steps
             echo 'Pipeline finished.'
         }
 
         success {
-            // Actions for a successful build
             echo 'Build succeeded!'
         }
 
         failure {
-            // Actions for a failed build
             echo 'Build failed.'
         }
     }
 }
+
